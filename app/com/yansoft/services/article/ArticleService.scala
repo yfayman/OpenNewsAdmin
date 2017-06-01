@@ -7,8 +7,8 @@ import scala.util.{ Try, Success, Failure }
 
 object ArticleService {
  
-  case class CommonArticle(id: Int, url: String, title: String, html: String, shortDescription: String, userId: Option[Int], status: ArticleStatusEnum.Value)
-  case class CommonCreateArticleRequest(url: String, title: String, html: String, shortDescription: String, userId: Option[Int])
+  case class CommonArticle(id: Int, url: String, title: String, html: String, shortDescription: String, userId: Int, status: ArticleStatusEnum.Value)
+  case class CommonCreateArticleRequest(url: String, title: String, html: String, shortDescription: String, userId: Int)
   case class CommonCreateArticleResponse(id: Option[Int], success: Boolean, error: Option[ArticleServiceError.Value])
   case class CommonGetArticlesRequest(skipHtml: Boolean)
   case class CommonArticleUpdateStatusRequest(articleId: Int, newStatus: ArticleStatusEnum.Value)
