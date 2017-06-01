@@ -2,7 +2,7 @@ package com.yansoft.services.security
 
 import scala.concurrent.Future
 
-class SecurityServiceImpl extends SecurityService{
+class SecurityServiceImpl(hasher: PasswordHasher, tokenGenerator: TokenGenerator) extends SecurityService{
   import SecurityService._
 
   def login(email: String, password: String): Future[CommonLoginResponse] = ???

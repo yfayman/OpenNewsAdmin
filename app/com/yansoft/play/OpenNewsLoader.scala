@@ -13,10 +13,11 @@ import be.objectify.deadbolt.scala.cache.{ DefaultPatternCache, CompositeCache, 
 import play.api.cache.EhCacheComponents
 import com.yansoft.deadbolt.PassThroughCompositeCache
 import com.acadaca.fakenews.deadbolt.OpenNewsDeadboltHandlerCache
-import com.yansoft.services.security.SecurityServiceImpl
 import com.acadaca.fakenews.deadbolt.OpenNewsDeadboltHandlerCache
 import com.acadaca.fakenews.deadbolt.OpenNewsDeadboltHandlerCache
 import com.yansoft.deadbolt.OpenNewsDeadboltEc
+import com.yansoft.services.article.ArticleServiceImpl
+import com.yansoft.services.security._
 
 class OpenNewsLoader extends ApplicationLoader {
   def load(context: ApplicationLoader.Context) = {
@@ -34,7 +35,8 @@ class MyComponents(context: ApplicationLoader.Context)
     with EhCacheComponents {
 
   // Services
-  lazy val securityService = new SecurityServiceImpl
+  lazy val securityService = new SecurityServiceImpl( new BCryptPasswordHash , new UUIDTokenGenerator) 
+  lazy val articleService = new ArticleServiceImpl
 
   //Deadbolt
   override lazy val defaultEcContextProvider = new OpenNewsDeadboltEc
