@@ -18,6 +18,12 @@ import com.acadaca.fakenews.deadbolt.OpenNewsDeadboltHandlerCache
 import com.yansoft.deadbolt.OpenNewsDeadboltEc
 import com.yansoft.services.article.ArticleServiceImpl
 import com.yansoft.services.security._
+import com.yansoft.services.jobs.JobServiceImpl
+import com.yansoft.scrapper.JsoupScrapper
+import akka.actor.{ ActorSystem }
+import com.yansoft.jobs.UpdateArticlesJob
+import com.yansoft.services.ArticleFinder.ArticleFinderServiceImpl
+import com.yansoft.utilities.ApplicationLogging
 
 class OpenNewsLoader extends ApplicationLoader {
   def load(context: ApplicationLoader.Context) = {
@@ -32,11 +38,22 @@ class MyComponents(context: ApplicationLoader.Context)
     extends BuiltInComponentsFromContext(context)
     with I18nComponents
     with DeadboltComponents
-    with EhCacheComponents {
+    with EhCacheComponents{
+  
+  //Akka
+  lazy val system = ActorSystem("jobs")
+
+  //Scrapper
+  lazy val scrapper = new JsoupScrapper
+
+  //Jobs
+  lazy val updateArticlesJob = new UpdateArticlesJob(system, articleFinderService.getActiveArticleFinders)(articleService, scrapper)
 
   // Services
-  lazy val securityService = new SecurityServiceImpl( new BCryptPasswordHash , new UUIDTokenGenerator) 
+  lazy val securityService = new SecurityServiceImpl(new BCryptPasswordHash, new UUIDTokenGenerator)
   lazy val articleService = new ArticleServiceImpl
+  lazy val articleFinderService = new ArticleFinderServiceImpl
+  lazy val jobService = new JobServiceImpl(configuration, List(updateArticlesJob), system)
 
   //Deadbolt
   override lazy val defaultEcContextProvider = new OpenNewsDeadboltEc
@@ -55,4 +72,5 @@ class MyComponents(context: ApplicationLoader.Context)
   lazy val assets = new controllers.Assets(httpErrorHandler)
 
   lazy val router: Router = new Routes(httpErrorHandler, homeController, assets)
+
 }

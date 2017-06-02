@@ -2,6 +2,7 @@ package com.yansoft.services.security
 import be.objectify.deadbolt.scala.models.Subject
 import be.objectify.deadbolt.scala.models._
 import scala.concurrent.Future
+import com.yansoft.utilities.ApplicationLogging
 
 object SecurityService {
 
@@ -18,7 +19,7 @@ object SecurityService {
 
 }
 
-trait SecurityService {
+trait SecurityService extends ApplicationLogging {
 
   import SecurityService._
 

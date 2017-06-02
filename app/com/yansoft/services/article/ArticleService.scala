@@ -4,6 +4,8 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext
 import com.acadaca.fakenews.utilities._
 import scala.util.{ Try, Success, Failure }
+import com.yansoft.rss.ArticleFinder
+import com.yansoft.utilities.ApplicationLogging
 
 object ArticleService {
  
@@ -28,7 +30,7 @@ object ArticleService {
   }
 
 
-trait ArticleService {
+trait ArticleService extends ApplicationLogging{
 
   import ArticleService._ 
   
@@ -41,5 +43,5 @@ trait ArticleService {
   def updateArticleStatus(request: CommonArticleUpdateStatusRequest): Future[CommonArticleUpdateStatusResponse]
   
   def getRecentArticles(request: CommonGetArticlesRequest): Future[List[CommonArticle]]
-    
+
 }

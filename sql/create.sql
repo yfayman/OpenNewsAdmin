@@ -47,6 +47,18 @@ CREATE TABLE article_status(
 	ref_code char varying(256) UNIQUE NOT NULL
 );
 
+CREATE SEQUENCE export_status_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    MAXVALUE 2147483647
+    CACHE 1;
+
+CREATE TABLE export_status(
+	export_status_id INTEGER PRIMARY KEY,
+	ref_code char varying(256) UNIQUE NOT NULL
+);
+
 INSERT INTO article_status VALUES (nextval('article_status_seq'),'ACTIVE');
 INSERT INTO article_status VALUES (nextval('article_status_seq'),'PENDING');
 INSERT INTO article_status VALUES (nextval('article_status_seq'),'DELETED');

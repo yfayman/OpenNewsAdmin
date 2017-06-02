@@ -15,6 +15,8 @@ import com.yansoft.utilities.ConfiguredExecutionContexts
 
 
 class JsoupScrapper extends ArticleScrapper {
+  
+  import com.yansoft.scrapper.ArticleScrapper._
 
   val jsoupBrowser = JsoupBrowser()
 

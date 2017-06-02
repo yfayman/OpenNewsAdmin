@@ -9,13 +9,12 @@ import org.slf4j.LoggerFactory
 import com.yansoft.services.security._
 import com.yansoft.services.security.SecurityService._
 import scala.util.{ Try, Success, Failure }
+import com.yansoft.utilities.ApplicationLogging
 
 /**
  * This handler just cares if a user exists
  */
-class UsesExistsDeadboltHandler(securityService: SecurityService) extends DeadboltHandler {
-
-  private val logger = org.slf4j.LoggerFactory.getLogger(this.getClass)
+class UsesExistsDeadboltHandler(securityService: SecurityService) extends DeadboltHandler with ApplicationLogging {
 
   override def beforeAuthCheck[A](request: Request[A]): Future[Option[Result]] = {
     logger.info("Before auth check on UsesExistsDeadboltHandler")
