@@ -9,7 +9,7 @@ object Common extends AutoPlugin {
   override def projectSettings = Seq(
     organization := "com.acadaca.fakenews",
     version := "1.0-SNAPSHOT",
- //   resolvers += Resolver.typesafeRepo("releases"),
+    //   resolvers += Resolver.typesafeRepo("releases"),
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
     scalacOptions ++= Seq(
       "-encoding",
@@ -39,6 +39,7 @@ object Settings {
       "be.objectify" %% "deadbolt-scala" % "2.5.1",
       "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % "test",
       "org.mockito" % "mockito-core" % "2.7.22",
-      "postgresql" % "postgresql" % "9.1-901-1.jdbc4")
+      "postgresql" % "postgresql" % "9.1-901-1.jdbc4",
+      "com.typesafe.slick" %% "slick-testkit" % "3.1.0" % "test")
 
 }
