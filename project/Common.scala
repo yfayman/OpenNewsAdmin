@@ -7,9 +7,8 @@ object Common extends AutoPlugin {
   override def requires: sbt.Plugins = JvmPlugin
 
   override def projectSettings = Seq(
-    organization := "com.acadaca.fakenews",
+    organization := "com.yansoft",
     version := "1.0-SNAPSHOT",
-    //   resolvers += Resolver.typesafeRepo("releases"),
     javacOptions ++= Seq("-source", "1.8", "-target", "1.8"),
     scalacOptions ++= Seq(
       "-encoding",
