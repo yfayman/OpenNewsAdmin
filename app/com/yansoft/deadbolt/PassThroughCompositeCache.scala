@@ -3,7 +3,7 @@ import be.objectify.deadbolt.scala.cache.CompositeCache
 import be.objectify.deadbolt.scala.composite._
 import play.api.mvc.AnyContent
 import scala.concurrent.Future
-import com.acadaca.fakenews.utilities.GlobalExecutionContextAware
+import com.yansoft.utilities.GlobalExecutionContextAware
 
 /**
  * This does nothing.......hopefully

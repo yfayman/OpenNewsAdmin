@@ -37,9 +37,9 @@ object Settings {
       "net.ruippeixotog" %% "scala-scraper" % "1.2.0",
       "com.googlecode.owasp-java-html-sanitizer" % "owasp-java-html-sanitizer" % "r239",
       "be.objectify" %% "deadbolt-scala" % "2.5.1",
-      "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % "test",
-      "org.mockito" % "mockito-core" % "2.7.22",
       "postgresql" % "postgresql" % "9.1-901-1.jdbc4",
-      "com.typesafe.slick" %% "slick-testkit" % "3.1.0" % "test")
+      "com.typesafe.slick" %% "slick-testkit" % "3.1.0" % "test",
+      "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.1" % "test",
+      "org.mockito" % "mockito-core" % "2.7.22")
 
 }

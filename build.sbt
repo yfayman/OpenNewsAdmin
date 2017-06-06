@@ -20,12 +20,12 @@ lazy val root = (project in file("."))
 	libraryDependencies += evolutions,
     name := """OpenNewsAdmin""",
     organization := "com.yansoft",
-    version := "1.0-SNAPSHOT",
-    testFrameworks := Seq(new TestFramework("com.novocode.junit.JUnitFramework")),
-    testOptions += Tests.Argument(TestFrameworks.JUnit, "-q", "-v", "-s", "-a"),
-    parallelExecution in Test := false,
-    logBuffered := false,
-    fork in run := true
+    version := "1.0-SNAPSHOT"
+   // testFrameworks := Seq(new TestFramework("com.novocode.junit.JUnitFramework")),
+   // testOptions += Tests.Argument(TestFrameworks.JUnit, "-q", "-v", "-s", "-a"),
+  //  parallelExecution in Test := false,
+  //  logBuffered := false,
+   // fork in run := true
   )
 
 

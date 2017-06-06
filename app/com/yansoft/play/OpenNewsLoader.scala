@@ -28,6 +28,8 @@ import play.api.db.evolutions.EvolutionsComponents
 import play.api.db.slick.evolutions.SlickEvolutionsComponents
 import play.api.db.slick.SlickComponents
 import com.yansoft.controllers.AuthController
+import com.yansoft.daos.security.SecurityDaoSlickImpl
+import slick.jdbc.JdbcBackend._
 
 class OpenNewsLoader extends ApplicationLoader {
   def load(context: ApplicationLoader.Context) = {
@@ -56,8 +58,14 @@ class MyComponents(context: ApplicationLoader.Context)
   //Jobs
   lazy val updateArticlesJob = new UpdateArticlesJob(system, articleFinderService.getActiveArticleFinders)(articleService, scrapper)
 
+  //DB
+  lazy val db = Database.forConfig("main")
+  
+  // DAOs
+  lazy val securityDao = new SecurityDaoSlickImpl(db,applicationLifecycle)
+
   // Services
-  lazy val securityService = new SecurityServiceImpl(new BCryptPasswordHash, new UUIDTokenGenerator)
+  lazy val securityService = new SecurityServiceImpl(securityDao, new BCryptPasswordHash, new UUIDTokenGenerator)
   lazy val articleService = new ArticleServiceImpl
   lazy val articleFinderService = new ArticleFinderServiceImpl
   lazy val jobService = new JobServiceImpl(configuration, List(updateArticlesJob), system)

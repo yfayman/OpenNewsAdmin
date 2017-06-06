@@ -33,10 +33,41 @@ object AuthObjectSerializers {
     def writes(lr: CommonLoginResponse): JsValue = Json.obj("accountInfo" -> Json.toJson(lr.account.getOrElse(null)))
   }
 
+  implicit val loginResponseReads = new Reads[CommonLoginResponse] {
+    def reads(json: JsValue): JsResult[CommonLoginResponse] = {
+      val successResult = (json \ "success").validate[Boolean]
+      val accOptResult = (json \ "account").validateOpt[CommonAccount]
+
+      for {
+        success <- successResult
+        accOpt <- accOptResult
+      } yield (CommonLoginResponse(success, accOpt))
+    }
+  }
+
+  implicit val commonCreateAccountResponseWrites = new Writes[CommonCreateAccountResponse] {
+    def writes(ccar: CommonCreateAccountResponse): JsValue =
+      Json.obj("success" -> ccar.success, "account" -> ccar.account, "errors" -> ccar.errors)
+  }
+
+  implicit val commonCreateAccountResponseReads = new Reads[CommonCreateAccountResponse] {
+    def reads(json: JsValue): JsResult[CommonCreateAccountResponse] = {
+      val successResult = (json \ "success").validate[Boolean]
+      val accOptResult = (json \ "account").validateOpt[CommonAccount]
+      val errorsOptResult = (json \ "errors").validateOpt[List[String]]
+
+      for {
+        success <- successResult
+        accOpt <- accOptResult
+        errorsOpt <- errorsOptResult
+      } yield (CommonCreateAccountResponse(success, accOpt, errorsOpt))
+    }
+  }
+
   implicit val getAccountInfoResponseReads = new Reads[CommonGetAccountInfoResponse] {
     def reads(json: JsValue): JsResult[CommonGetAccountInfoResponse] = {
       val accOptResult = (json \ "account").validateOpt[CommonAccount]
-      val activeAuthResult = (json \ "activeAuth").validate[Boolean] // This doesn't seem to work. Will use Opt in the meantime
+      val activeAuthResult = (json \ "activeAuth").validate[Boolean]
       val messageResult = (json \ "message").validate[String]
 
       for {
@@ -55,6 +86,11 @@ object AuthObjectSerializers {
   implicit val loginReads: Reads[Login] = (
     (JsPath \ "email").read[String](email) and
     (JsPath \ "password").read[String])(Login.apply _)
+
+  implicit val createAccountWrites = new Writes[CreateAccount] {
+    def writes(ca: CreateAccount): JsValue =
+      Json.obj("email" -> ca.email, "username" -> ca.username, "password" -> ca.password)
+  }
 
   implicit val createAccountReads: Reads[CreateAccount] = (
     (JsPath \ "email").read[String](email) and

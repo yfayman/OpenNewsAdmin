@@ -1,17 +1,50 @@
 package services
 
 import org.scalatest.FunSuite
-import org.scalatest.mockito.MockitoSugar
+import org.scalatest.mock.MockitoSugar
 import com.yansoft.services.security.SecurityServiceImpl
 import com.yansoft.services.security.SecurityServiceImpl
 import com.yansoft.services.security.BCryptPasswordHash
 import com.yansoft.services.security.UUIDTokenGenerator
+import com.yansoft.daos.security.SecurityDao
+import scala.language.postfixOps
+import scala.concurrent.{ Future, Await }
+import scala.concurrent.duration._
+import org.mockito.Mockito._
+import scala.util.{ Try, Success, Failure }
 
 class SecurityServiceTest extends FunSuite with MockitoSugar {
 
   import com.yansoft.services.security.SecurityService._
+  import com.yansoft.daos.security.SecurityDao._
 
-  val service = new SecurityServiceImpl(new BCryptPasswordHash, new UUIDTokenGenerator)
+  val dao = mock[SecurityDao]
+  val service = new SecurityServiceImpl(dao, new BCryptPasswordHash, new UUIDTokenGenerator)
+
+  test("Create Account Test - Success") {
+    val request = CommonCreateAccountRequest("yan", "yfayman@gmail.com", "password")
+    val daoCreateOutcome = Success(UserData(5, request.username, request.email, request.password, None, None))
+    when(dao.create(request.username, request.password, request.email)).thenReturn(Future.successful(daoCreateOutcome))
+
+    val responseFuture = service.createAccount(request)
+    val response = Await.result(responseFuture, 2.seconds)
+    assert(response.success)
+    assert(response.errors.isEmpty)
+    assert(response.account.isDefined)
+  }
+
+  test("Create Account Test Test - Fail") {
+    val request = CommonCreateAccountRequest("yan", "yfayman@gmail.com", "password")
+    val daoCreateOutcome = Failure(new Exception("username is taken"))
+    when(dao.create(request.username, request.password, request.email)).thenReturn(Future.successful(daoCreateOutcome))
+   
+    val responseFuture = service.createAccount(request)
+    val response = Await.result(responseFuture, 2.seconds)
+    
+    assert(!response.success)
+    assert(response.errors.isDefined)
+    assert(response.account.isEmpty)
+  }
 
   test("Login Test - Success") {
 
@@ -36,5 +69,5 @@ class SecurityServiceTest extends FunSuite with MockitoSugar {
   test("Renew auth - Fail") {
 
   }
-  
+
 }

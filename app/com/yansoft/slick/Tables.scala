@@ -123,33 +123,36 @@ trait Tables {
   lazy val ExportStatus = new TableQuery(tag => new ExportStatus(tag))
 
   /** Entity class storing rows of table User
-   *  @param userId Database column user_id SqlType(int4), PrimaryKey
+   *  @param userId Database column user_id SqlType(serial), AutoInc, PrimaryKey
    *  @param username Database column username SqlType(varchar), Length(256,true)
    *  @param email Database column email SqlType(varchar), Length(256,true)
+   *  @param password Database column password SqlType(varchar), Length(256,true)
    *  @param userTypeId Database column user_type_id SqlType(int4)
    *  @param disabled Database column disabled SqlType(bool)
    *  @param authToken Database column auth_token SqlType(varchar), Length(256,true), Default(None)
    *  @param authExpiration Database column auth_expiration SqlType(timestamp), Default(None)
    *  @param createdDate Database column created_date SqlType(timestamp)
    *  @param updatedDate Database column updated_date SqlType(timestamp) */
-  case class UserRow(userId: Int, username: String, email: String, userTypeId: Int, disabled: Boolean, authToken: Option[String] = None, authExpiration: Option[java.sql.Timestamp] = None, createdDate: java.sql.Timestamp, updatedDate: java.sql.Timestamp)
+  case class UserRow(userId: Int, username: String, email: String, password: String, userTypeId: Int, disabled: Boolean, authToken: Option[String] = None, authExpiration: Option[java.sql.Timestamp] = None, createdDate: java.sql.Timestamp, updatedDate: java.sql.Timestamp)
   /** GetResult implicit for fetching UserRow objects using plain SQL queries */
   implicit def GetResultUserRow(implicit e0: GR[Int], e1: GR[String], e2: GR[Boolean], e3: GR[Option[String]], e4: GR[Option[java.sql.Timestamp]], e5: GR[java.sql.Timestamp]): GR[UserRow] = GR{
     prs => import prs._
-    UserRow.tupled((<<[Int], <<[String], <<[String], <<[Int], <<[Boolean], <<?[String], <<?[java.sql.Timestamp], <<[java.sql.Timestamp], <<[java.sql.Timestamp]))
+    UserRow.tupled((<<[Int], <<[String], <<[String], <<[String], <<[Int], <<[Boolean], <<?[String], <<?[java.sql.Timestamp], <<[java.sql.Timestamp], <<[java.sql.Timestamp]))
   }
   /** Table description of table user. Objects of this class serve as prototypes for rows in queries. */
   class User(_tableTag: Tag) extends Table[UserRow](_tableTag, "user") {
-    def * = (userId, username, email, userTypeId, disabled, authToken, authExpiration, createdDate, updatedDate) <> (UserRow.tupled, UserRow.unapply)
+    def * = (userId, username, email, password, userTypeId, disabled, authToken, authExpiration, createdDate, updatedDate) <> (UserRow.tupled, UserRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(userId), Rep.Some(username), Rep.Some(email), Rep.Some(userTypeId), Rep.Some(disabled), authToken, authExpiration, Rep.Some(createdDate), Rep.Some(updatedDate)).shaped.<>({r=>import r._; _1.map(_=> UserRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6, _7, _8.get, _9.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (Rep.Some(userId), Rep.Some(username), Rep.Some(email), Rep.Some(password), Rep.Some(userTypeId), Rep.Some(disabled), authToken, authExpiration, Rep.Some(createdDate), Rep.Some(updatedDate)).shaped.<>({r=>import r._; _1.map(_=> UserRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7, _8, _9.get, _10.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
-    /** Database column user_id SqlType(int4), PrimaryKey */
-    val userId: Rep[Int] = column[Int]("user_id", O.PrimaryKey)
+    /** Database column user_id SqlType(serial), AutoInc, PrimaryKey */
+    val userId: Rep[Int] = column[Int]("user_id", O.AutoInc, O.PrimaryKey)
     /** Database column username SqlType(varchar), Length(256,true) */
     val username: Rep[String] = column[String]("username", O.Length(256,varying=true))
     /** Database column email SqlType(varchar), Length(256,true) */
     val email: Rep[String] = column[String]("email", O.Length(256,varying=true))
+    /** Database column password SqlType(varchar), Length(256,true) */
+    val password: Rep[String] = column[String]("password", O.Length(256,varying=true))
     /** Database column user_type_id SqlType(int4) */
     val userTypeId: Rep[Int] = column[Int]("user_type_id")
     /** Database column disabled SqlType(bool) */
@@ -168,8 +171,10 @@ trait Tables {
 
     /** Uniqueness Index over (email) (database name user_email_key) */
     val index1 = index("user_email_key", email, unique=true)
+    /** Uniqueness Index over (password) (database name user_password_key) */
+    val index2 = index("user_password_key", password, unique=true)
     /** Uniqueness Index over (username) (database name user_username_key) */
-    val index2 = index("user_username_key", username, unique=true)
+    val index3 = index("user_username_key", username, unique=true)
   }
   /** Collection-like TableQuery object for table User */
   lazy val User = new TableQuery(tag => new User(tag))

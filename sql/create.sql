@@ -23,6 +23,7 @@ CREATE TABLE "user"(
 	user_id INTEGER PRIMARY KEY,
 	username char varying(256) UNIQUE NOT NULL,
 	email char varying(256) UNIQUE NOT NULL,
+	password char varying(256) UNIQUE NOT NULL,
 	user_type_id INTEGER NOT NULL,
 	disabled BOOLEAN NOT NULL,
 	auth_token char varying(256),

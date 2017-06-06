@@ -1,7 +1,7 @@
 package com.yansoft.deadbolt
 
 import be.objectify.deadbolt.scala.ExecutionContextProvider
-import com.acadaca.fakenews.utilities.GlobalExecutionContextAware
+import com.yansoft.utilities.GlobalExecutionContextAware
 import scala.concurrent.ExecutionContext
 import org.slf4j.LoggerFactory
 

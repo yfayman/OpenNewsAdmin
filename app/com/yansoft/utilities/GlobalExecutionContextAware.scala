@@ -1,4 +1,4 @@
-package com.acadaca.fakenews.utilities
+package com.yansoft.utilities
 
 import scala.concurrent.ExecutionContext
 

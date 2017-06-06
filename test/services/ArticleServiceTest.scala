@@ -1,7 +1,7 @@
 package services
 
 import org.scalatest.FunSuite
-import org.scalatest.mockito.MockitoSugar
+import org.scalatest.mock.MockitoSugar
 import com.yansoft.services.article.ArticleServiceImpl
 
 class ArticleServiceTest extends FunSuite with MockitoSugar {
