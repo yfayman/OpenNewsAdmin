@@ -19,7 +19,7 @@ trait Tables {
   def ddl = schema
 
   /** Entity class storing rows of table Article
-   *  @param articleId Database column article_id SqlType(int4), PrimaryKey
+   *  @param articleId Database column article_id SqlType(serial), AutoInc, PrimaryKey
    *  @param url Database column url SqlType(varchar), Length(256,true)
    *  @param title Database column title SqlType(varchar), Length(256,true)
    *  @param shortDescription Database column short_description SqlType(varchar), Length(256,true)
@@ -40,8 +40,8 @@ trait Tables {
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(articleId), Rep.Some(url), Rep.Some(title), Rep.Some(shortDescription), Rep.Some(html), Rep.Some(articleStatusId), Rep.Some(userId), Rep.Some(createdDate), Rep.Some(updatedDate)).shaped.<>({r=>import r._; _1.map(_=> ArticleRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get, _9.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
-    /** Database column article_id SqlType(int4), PrimaryKey */
-    val articleId: Rep[Int] = column[Int]("article_id", O.PrimaryKey)
+    /** Database column article_id SqlType(serial), AutoInc, PrimaryKey */
+    val articleId: Rep[Int] = column[Int]("article_id", O.AutoInc, O.PrimaryKey)
     /** Database column url SqlType(varchar), Length(256,true) */
     val url: Rep[String] = column[String]("url", O.Length(256,varying=true))
     /** Database column title SqlType(varchar), Length(256,true) */
