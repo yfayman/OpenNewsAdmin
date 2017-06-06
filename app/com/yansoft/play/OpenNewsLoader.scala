@@ -30,6 +30,7 @@ import play.api.db.slick.SlickComponents
 import com.yansoft.controllers.AuthController
 import com.yansoft.daos.security.SecurityDaoSlickImpl
 import slick.jdbc.JdbcBackend._
+import scala.concurrent.Future
 
 class OpenNewsLoader extends ApplicationLoader {
   def load(context: ApplicationLoader.Context) = {
@@ -62,7 +63,7 @@ class MyComponents(context: ApplicationLoader.Context)
   lazy val db = Database.forConfig("main")
   
   // DAOs
-  lazy val securityDao = new SecurityDaoSlickImpl(db,applicationLifecycle)
+  lazy val securityDao = new SecurityDaoSlickImpl(db)
 
   // Services
   lazy val securityService = new SecurityServiceImpl(securityDao, new BCryptPasswordHash, new UUIDTokenGenerator)
@@ -88,5 +89,9 @@ class MyComponents(context: ApplicationLoader.Context)
   lazy val assets = new controllers.Assets(httpErrorHandler)
 
   lazy val router: Router = new Routes(httpErrorHandler, homeController, authController, assets)
+  
+  
+  // Close the DB when app stops
+  applicationLifecycle.addStopHook { () => Future.successful(db.close()) }
 
 }

@@ -13,7 +13,7 @@ import scala.concurrent.Await
 import java.sql.Timestamp
 import com.yansoft.utilities.GlobalExecutionContextAware
 
-class SecurityDaoSlickImpl(db: slick.jdbc.JdbcBackend.Database, lifecycle: ApplicationLifecycle)
+class SecurityDaoSlickImpl(db: slick.jdbc.JdbcBackend.Database)
     extends SecurityDao with GlobalExecutionContextAware {
 
   import com.yansoft.daos.security.SecurityDao._
@@ -56,7 +56,4 @@ class SecurityDaoSlickImpl(db: slick.jdbc.JdbcBackend.Database, lifecycle: Appli
     val idQuery = userTypes.filter { ut => ut.refCode === refCode }.map { ut => ut.userTypeId }
     db.run(idQuery.result.head)
   }
-
-  lifecycle.addStopHook { () => Future.successful(db.close()) }
-
 }
