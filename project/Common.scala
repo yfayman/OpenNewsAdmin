@@ -29,6 +29,7 @@ object Settings {
     Seq(
       "com.netaporter" %% "scala-uri" % "0.4.14",
       "com.typesafe.play" %% "play-slick" % "2.0.2",
+      "com.typesafe.play" %% "play-slick-evolutions" % "2.0.2",
       "com.typesafe.slick" %% "slick-codegen" % "3.1.0",
       "mysql" % "mysql-connector-java" % "6.0.5",
       "com.github.t3hnar" %% "scala-bcrypt" % "3.0",

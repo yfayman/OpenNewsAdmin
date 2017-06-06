@@ -17,6 +17,7 @@ lazy val root = (project in file("."))
 	libraryDependencies += jdbc,
 	libraryDependencies += filters,
 	libraryDependencies += ws,
+	libraryDependencies += evolutions,
     name := """OpenNewsAdmin""",
     organization := "com.yansoft",
     version := "1.0-SNAPSHOT",
@@ -31,7 +32,7 @@ lazy val root = (project in file("."))
 /*
 // Slick Codegen Example
 slick.codegen.SourceCodeGenerator.main(
-  Array("slick.driver.PostgresDriver", "org.postgresql.Driver", "jdbc:postgresql://localhost:5432/dvdtest", "/home/yan/slick", "com.yansoft", "postgres", "postgres")
+  Array("slick.driver.PostgresDriver", "org.postgresql.Driver", "jdbc:postgresql://localhost:5432/opennews", "/home/yan/slick", "com.yansoft.slick", "postgres", "postgres")
 )
 
 

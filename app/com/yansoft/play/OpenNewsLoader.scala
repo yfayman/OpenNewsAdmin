@@ -24,6 +24,10 @@ import akka.actor.{ ActorSystem }
 import com.yansoft.jobs.UpdateArticlesJob
 import com.yansoft.services.ArticleFinder.ArticleFinderServiceImpl
 import com.yansoft.utilities.ApplicationLogging
+import play.api.db.evolutions.EvolutionsComponents
+import play.api.db.slick.evolutions.SlickEvolutionsComponents
+import play.api.db.slick.SlickComponents
+import com.yansoft.controllers.AuthController
 
 class OpenNewsLoader extends ApplicationLoader {
   def load(context: ApplicationLoader.Context) = {
@@ -38,8 +42,11 @@ class MyComponents(context: ApplicationLoader.Context)
     extends BuiltInComponentsFromContext(context)
     with I18nComponents
     with DeadboltComponents
-    with EhCacheComponents{
-  
+    with EhCacheComponents
+    with EvolutionsComponents
+    with SlickEvolutionsComponents
+    with SlickComponents {
+
   //Akka
   lazy val system = ActorSystem("jobs")
 
@@ -68,9 +75,10 @@ class MyComponents(context: ApplicationLoader.Context)
   override lazy val httpFilters = Seq(gzipFilter)
 
   lazy val homeController = new HomeController
+  lazy val authController = new AuthController(securityService, deadboltActions)
 
   lazy val assets = new controllers.Assets(httpErrorHandler)
 
-  lazy val router: Router = new Routes(httpErrorHandler, homeController, assets)
+  lazy val router: Router = new Routes(httpErrorHandler, homeController, authController, assets)
 
 }
