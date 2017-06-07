@@ -54,6 +54,7 @@ class AuthController(service: SecurityService, deadbolt: DeadboltActions)
         val serviceCreateAccountReq = CommonCreateAccountRequest(createAccount.username, createAccount.email, createAccount.password)
         service.createAccount(serviceCreateAccountReq).map {res => res match{
           case CommonCreateAccountResponse(true, accOpt, None) => Ok(Json.toJson(res))
+          case CommonCreateAccountResponse(false, accOpt, Some(errors)) => BadRequest(Json.toJson(errors))
           case _ => BadRequest
         } }
       })    

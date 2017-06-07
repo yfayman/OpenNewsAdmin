@@ -12,6 +12,7 @@ import scala.concurrent.{ Future, Await }
 import scala.concurrent.duration._
 import org.mockito.Mockito._
 import scala.util.{ Try, Success, Failure }
+import org.mockito.ArgumentMatchers
 
 class SecurityServiceTest extends FunSuite with MockitoSugar {
 
@@ -24,7 +25,7 @@ class SecurityServiceTest extends FunSuite with MockitoSugar {
   test("Create Account Test - Success") {
     val request = CommonCreateAccountRequest("yan", "yfayman@gmail.com", "password")
     val daoCreateOutcome = Success(UserData(5, request.username, request.email, request.password, None, None))
-    when(dao.create(request.username, request.password, request.email)).thenReturn(Future.successful(daoCreateOutcome))
+    when(dao.create(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(Future.successful(daoCreateOutcome))
 
     val responseFuture = service.createAccount(request)
     val response = Await.result(responseFuture, 2.seconds)
@@ -33,10 +34,10 @@ class SecurityServiceTest extends FunSuite with MockitoSugar {
     assert(response.account.isDefined)
   }
 
-  test("Create Account Test Test - Fail") {
+  test("Create Account Test - Fail") {
     val request = CommonCreateAccountRequest("yan", "yfayman@gmail.com", "password")
     val daoCreateOutcome = Failure(new Exception("username is taken"))
-    when(dao.create(request.username, request.password, request.email)).thenReturn(Future.successful(daoCreateOutcome))
+    when(dao.create(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(Future.successful(daoCreateOutcome))
    
     val responseFuture = service.createAccount(request)
     val response = Await.result(responseFuture, 2.seconds)
