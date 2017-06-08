@@ -48,6 +48,12 @@ class SecurityDaoSlickImpl(db: slick.jdbc.JdbcBackend.Database)
 
   def renewAuth(userId: Int, newExpiration: Long): Future[Boolean] = ???
 
+  def deleteAllUsers() = {
+    val deleteAction = users.delete
+    val result = db.run(deleteAction)
+    Await.result(result, Duration.Inf)
+  }
+
   private def convertTableUserToUser(utr: Tables.UserRow): UserData = {
     UserData(utr.userId, utr.email, utr.username, utr.password, utr.authToken, utr.authExpiration)
   }

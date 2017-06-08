@@ -23,7 +23,7 @@ class AuthControllerSpec extends PlaySpec with MockitoSugar {
   val deadboltActions = mock[DeadboltActions]
   val controller = new AuthController(service, deadboltActions)
 
-  "AuthController#create " should {
+  "AuthController#create success " should {
     val acctToCreate = CreateAccount("yfayman@gmail.com", "yan", "password")
     val json = Json.toJson(acctToCreate)
     val request: Request[JsValue] = FakeRequest("POST", "/").withBody(json)
