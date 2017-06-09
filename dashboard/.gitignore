@@ -1,36 +1,9 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
 
-g
-tmp
-dump
-
-# Eclipse
-.settings
-.cache
-.project
-.classpath
-.scala_dependencies
-bin
-
-# SBT
-dist
-project/boot
-project/target
-project/plugins/target
-target
-.target
-
-# Play
-logs
-RUNNING_PID
-.cache-main
-.cache-tests
-.g8/
-
-
-#Angular
 # compiled output
 /dist
 /tmp
+/out-tsc
 
 # dependencies
 /node_modules
@@ -42,6 +15,7 @@ RUNNING_PID
 .c9/
 *.launch
 .settings/
+*.sublime-workspace
 
 # IDE - VSCode
 .vscode/*
@@ -53,7 +27,7 @@ RUNNING_PID
 # misc
 /.sass-cache
 /connect.lock
-/coverage/*
+/coverage
 /libpeerconnection.log
 npm-debug.log
 testem.log
@@ -63,7 +37,6 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 
-#System Files
+# System Files
 .DS_Store
 Thumbs.db
-
