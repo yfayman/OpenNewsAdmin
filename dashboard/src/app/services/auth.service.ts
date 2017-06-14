@@ -6,4 +6,8 @@ export class AuthService {
 
   constructor(private http: Http) { }
 
+  logout(){
+    
+  }
+
 }

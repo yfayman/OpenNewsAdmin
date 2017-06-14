@@ -6,10 +6,18 @@ import { AuthService } from './services/auth.service'
 import { HttpService } from './services/http.service'
 import { AppComponent } from './app.component';
 import {routing} from './app.routing';
+import { HeaderComponent } from './header.component';
+import { SideBarComponent } from './side-bar.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
+import { RecentArticlesComponent } from './components/recent-articles/recent-articles.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    SideBarComponent,
+    WelcomeComponent,
+    RecentArticlesComponent
   ],
   imports: [
     BrowserModule,

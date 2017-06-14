@@ -15,15 +15,39 @@ import slick.driver.PostgresDriver.api._
 
 class SecurityDaoSlickTest extends SlickTestDb {
 
-    lazy val dao = new SecurityDaoSlickImpl(db)
-    
-    "Create new user" should {
-     val resultFuture =  dao.create("yantest", "password", "yfayman@gmail.com")
-     val result = Await.result(resultFuture, Duration.Inf)
-     assert(result.isSuccess)
-     val rowsDeleted = dao.deleteAllUsers()
-    }
-    
-    
-  
+  lazy val dao = new SecurityDaoSlickImpl(db)
+
+  override def beforeAll() = {
+    dao.deleteAllUsers()
+  }
+
+  it should "Create a user successfully and then retrieve" in {
+
+    val username = "yantest"
+    val password = "password"
+    val email = "yfayman@gmail.com"
+    val resultFuture = dao.create(username, password, email)
+    val createAccountResult = Await.result(resultFuture, Duration.Inf)
+    assert(createAccountResult.isSuccess)
+
+    val userId = createAccountResult.get.id
+    val acctFuture = dao.getAccountById(userId)
+    val getAcctResult = Await.result(acctFuture, Duration.Inf)
+    assert(getAcctResult.isDefined)
+    val acct = getAcctResult.get
+    assert(acct.username == username)
+    assert(acct.email == email)
+    assert(acct.password == password)
+
+  }
+
+  it should "Fail to create a user with a taken email" in {
+    val username = "yantest2"
+    val password = "password2"
+    val email = "yfayman@gmail.com"
+    val resultFuture = dao.create(username, password, email)
+    val createAccountResult = Await.result(resultFuture, Duration.Inf)
+    assert(createAccountResult.isFailure)
+  }
+
 }

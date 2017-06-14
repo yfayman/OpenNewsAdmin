@@ -44,8 +44,12 @@ class SecurityDaoSlickImpl(db: slick.jdbc.JdbcBackend.Database)
 
   def getAccountByAuthToken(token: String): Future[Option[UserData]] = ???
 
-  def getAccountById(id: Int): Future[Option[UserData]] = ???
-
+  def getAccountById(id: Int): Future[Option[UserData]] = {
+    val userQuery = users.filter { _.userId === id }
+    db.run(userQuery.result.headOption)
+      .map { _.map { userRow => convertUserRowToUserData(userRow) } }
+  }
+  //case class UserData(id:Int, email:String, username:String, password:String, authToken:Option[String], authTokenExp:Option[Timestamp] )
   def renewAuth(userId: Int, newExpiration: Long): Future[Boolean] = ???
 
   def deleteAllUsers() = {
@@ -62,4 +66,7 @@ class SecurityDaoSlickImpl(db: slick.jdbc.JdbcBackend.Database)
     val idQuery = userTypes.filter { ut => ut.refCode === refCode }.map { ut => ut.userTypeId }
     db.run(idQuery.result.head)
   }
+
+  private def convertUserRowToUserData(userRow: Tables.UserRow): UserData = 
+    UserData(userRow.userId, userRow.email,userRow.username, userRow.password, userRow.authToken, userRow.authExpiration)
 }

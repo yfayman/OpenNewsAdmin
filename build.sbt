@@ -21,19 +21,11 @@ lazy val root = (project in file("."))
     name := """OpenNewsAdmin""",
     organization := "com.yansoft",
     version := "1.0-SNAPSHOT"
-   // testFrameworks := Seq(new TestFramework("com.novocode.junit.JUnitFramework")),
-   // testOptions += Tests.Argument(TestFrameworks.JUnit, "-q", "-v", "-s", "-a"),
-  //  parallelExecution in Test := false,
-  //  logBuffered := false,
-   // fork in run := true
   )
-
-
+ 
 /*
 // Slick Codegen Example
 slick.codegen.SourceCodeGenerator.main(
   Array("slick.driver.PostgresDriver", "org.postgresql.Driver", "jdbc:postgresql://localhost:5432/opennews", "/home/yan/slick", "com.yansoft.slick", "postgres", "postgres")
 )
-
-
 */

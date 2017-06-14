@@ -2,13 +2,17 @@
   "name": "dashboard",
   "version": "0.0.0",
   "license": "MIT",
+  "main": "index.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.config.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "clean": "rm -rf dist",
+    "build_prod": "ng build --aot -oh none -op -sm false && npm run minify",
+    "minify": "bash minifyAndCopy.sh dist/ ../public"
   },
   "private": true,
   "dependencies": {
@@ -21,9 +25,10 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "core-js": "^2.4.1",
+    "latest-version": "^3.1.0",
+    "ng2-cookies": "^1.0.6",
     "rxjs": "^5.1.0",
-    "zone.js": "^0.8.4",
-    "ng2-cookies": "^1.0.6"
+    "zone.js": "^0.8.4"
   },
   "devDependencies": {
     "@angular/cli": "1.0.2",
@@ -42,6 +47,8 @@
     "protractor": "~5.1.0",
     "ts-node": "~2.0.0",
     "tslint": "~4.5.0",
-    "typescript": "~2.2.0"
+    "typescript": "~2.2.0",
+    "browserify": "^13.0.1",
+    "uglifyjs": "^2.4.10"
   }
 }

@@ -9,6 +9,6 @@ import { HttpService } from './services/http.service'
 export class AppComponent {
 
   constructor(private httpService: HttpService) {
-
+      
   }
 }
