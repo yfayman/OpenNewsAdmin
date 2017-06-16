@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AuthService } from './services/auth.service'
 import { HttpService } from './services/http.service'
+import {ArticleService} from './services/article.service'
+import { JobService } from './services/job.service'
 import { AppComponent } from './app.component';
 import {routing} from './app.routing';
 import { HeaderComponent } from './header.component';
@@ -27,7 +29,7 @@ import { JobsComponent } from './components/jobs/jobs.component';
     HttpModule,
     routing
   ],
-  providers: [AuthService, HttpService],
+  providers: [AuthService, HttpService, JobService, ArticleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
