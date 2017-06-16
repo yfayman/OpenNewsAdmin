@@ -10,6 +10,7 @@ import { HeaderComponent } from './header.component';
 import { SideBarComponent } from './side-bar.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { RecentArticlesComponent } from './components/recent-articles/recent-articles.component';
+import { JobsComponent } from './components/jobs/jobs.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { RecentArticlesComponent } from './components/recent-articles/recent-art
     HeaderComponent,
     SideBarComponent,
     WelcomeComponent,
-    RecentArticlesComponent
+    RecentArticlesComponent,
+    JobsComponent
   ],
   imports: [
     BrowserModule,

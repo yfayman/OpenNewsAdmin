@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "clean": "rm -rf dist",
-    "build_prod": "ng build --aot -oh none -op -sm false && npm run minify",
+    "build_prod": "ng build --aot -oh none -sm false && npm run minify",
     "minify": "bash minifyAndCopy.sh dist/ ../public"
   },
   "private": true,
@@ -47,7 +47,7 @@
     "protractor": "~5.1.0",
     "ts-node": "~2.0.0",
     "tslint": "~4.5.0",
-    "typescript": "~2.2.0",
+    "typescript": "~2.3.4",
     "browserify": "^13.0.1",
     "uglifyjs": "^2.4.10"
   }
